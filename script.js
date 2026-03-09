@@ -5,15 +5,16 @@ async function searchTicket(){
 
 const query = document.getElementById("search").value
 
-const res = await fetch(API,{
-method:"POST",
-body:new URLSearchParams({
-action:"search",
-query:query
-})
-})
+const res = await fetch(`${API}?query=${encodeURIComponent(query)}`)
 
 const data = await res.json()
+
+if(data.status === "not_found"){
+
+document.getElementById("result").innerHTML = "No ticket found"
+return
+
+}
 
 document.getElementById("result").innerHTML = `
 
@@ -37,7 +38,6 @@ Mark Closed
 `
 
 }
-
 
 
 async function closeTicket(ticket,email,name){
