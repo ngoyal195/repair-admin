@@ -1,4 +1,5 @@
-const API = "YOUR_SCRIPT_URL"
+const API = "https://script.google.com/macros/s/AKfycby0RMZJJK3BCiRVvAx48gcIQppC4dZZxzt6MfJWQiiPn1ct0VKa1yNR93OwyvGh_aQl/exec"
+
 
 async function searchTicket(){
 
@@ -16,12 +17,12 @@ const data = await res.json()
 
 document.getElementById("result").innerHTML = `
 
-<h3>${data[0]}</h3>
+<h3>Ticket: ${data[0]}</h3>
 
-<p>Name: ${data[1]}</p>
-<p>Phone: ${data[2]}</p>
-<p>Email: ${data[3]}</p>
-<p>Status: ${data[11]}</p>
+<p><b>Name:</b> ${data[1]}</p>
+<p><b>Phone:</b> ${data[2]}</p>
+<p><b>Email:</b> ${data[3]}</p>
+<p><b>Status:</b> ${data[11]}</p>
 
 <img src="${data[8]}" width="120">
 <img src="${data[9]}" width="120">
@@ -29,7 +30,7 @@ document.getElementById("result").innerHTML = `
 
 <br><br>
 
-<button onclick="closeTicket('${data[0]}','${data[3]}')">
+<button onclick="closeTicket('${data[0]}','${data[3]}','${data[1]}')">
 Mark Closed
 </button>
 
@@ -37,7 +38,11 @@ Mark Closed
 
 }
 
-async function closeTicket(ticket,email){
+
+
+async function closeTicket(ticket,email,name){
+
+/* update google sheet */
 
 await fetch(API,{
 method:"POST",
@@ -49,14 +54,15 @@ ticket_id:ticket
 
 /* send completion email */
 
-emailjs.send(
+await emailjs.send(
 "service_chf6h93",
-"template_completion",
+"template_f3dz9ox",
 {
-ticket_id:ticket,
-email:email
+ticket_id: ticket,
+to_email: email,
+name: name
 })
 
-alert("Ticket Closed")
+alert("Ticket closed and email sent.")
 
 }
