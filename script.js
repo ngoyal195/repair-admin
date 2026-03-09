@@ -39,30 +39,27 @@ Mark Closed
 
 }
 
-
 async function closeTicket(ticket,email,name){
-
-/* update google sheet */
 
 await fetch(API,{
 method:"POST",
+mode:"no-cors",
 body:new URLSearchParams({
 action:"close",
 ticket_id:ticket
 })
 })
 
-/* send completion email */
-
 await emailjs.send(
 "service_chf6h93",
 "template_f3dz9ox",
 {
-ticket_id: ticket,
-to_email: email,
-name: name
+ticket_id:ticket,
+name:name,
+to_email:email
 })
 
 alert("Ticket closed and email sent.")
 
 }
+
