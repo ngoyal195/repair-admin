@@ -26,8 +26,6 @@ document.getElementById("result").innerHTML = `
 <p><b>Status:</b> ${data[11]}</p>
 
 <img src="${data[8]}" width="120">
-<img src="${data[9]}" width="120">
-<img src="${data[10]}" width="120">
 
 <br><br>
 
